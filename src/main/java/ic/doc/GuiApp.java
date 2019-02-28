@@ -8,54 +8,85 @@ import javax.swing.*;
 
 public class GuiApp {
 
-  Stack<Integer> stack = new Stack<>();
-
   public static void main(String[] args) {
-    new GuiApp().display();
+    new GuiApp();
+  }
+
+  private View view = new View();
+  private Model polishCalc = new Model(view);
+
+
+  class Model {
+    private Stack<Integer> stack = new Stack<>();
+    private View view;
+
+    public Model(View view) {
+      this.view = view;
+    }
+
+    public void addNumberToStack(Integer i) {
+      stack.push(i);
+      view.textField_answer.setText(i.toString());
+    }
+
+    public void evaluate(String s) {
+      Integer firstOperand = stack.pop();
+      Integer secondOperand = stack.pop();
+      if(s == "+") {
+        stack.push(firstOperand + secondOperand);
+      }else {
+        stack.push(firstOperand - secondOperand);
+      }
+    }
+  }
+
+
+  class View {
+
+    private JFrame frame = new JFrame("Reverse Polish Calculator");
+    private JPanel panel = new JPanel();
+    private JButton[] button_numbers = new JButton[4];
+    private JButton button_plus = new JButton("+");
+    private JButton button_minus = new JButton("-");
+    private JTextField textField_answer = new JTextField(10);
+
+    public View() {
+      frame.setSize(300, 120);
+
+      for(Integer i = 1; i < 5; i++) {
+        button_numbers[i - 1] = new JButton(i.toString());
+        panel.add(button_numbers[i - 1]);
+      }
+      panel.add(button_plus);
+      panel.add(button_minus);
+      panel.add(textField_answer);
+
+      frame.add(panel);
+      frame.setVisible(true);
+
+
+//      CONTROLLER:
+      for(Integer i = 1; i < 5; i++) {
+        Integer finalI = i;
+        button_numbers[i - 1].addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent actionEvent) {
+            polishCalc.addNumberToStack(finalI);
+          }
+        });
+
+        button_plus.addActionListener(new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent actionEvent) {
+            polishCalc.evaluate("+");
+          }
+        });
+      }
+    }
   }
 
 
 
 
-
-  private void display() {
-
-//    create jframe and set size
-    JFrame frame = new JFrame("Reverse Polish Calculator");
-    frame.setSize(300, 120);
-
-//    create panel
-    JPanel panel = new JPanel();
-
-//    create buttons and add to panel
-    JButton[] button_numbers = new JButton[4];
-    for(Integer i = 1; i < 5; i++) {
-      button_numbers[i - 1] = new JButton(i.toString());
-      panel.add(button_numbers[i - 1]);
-    }
-
-    JButton button_plus = new JButton("+");
-    JButton button_minus = new JButton("-");
-    panel.add(button_plus);
-    panel.add(button_minus);
-
-//    create text field and add to panel
-    JTextField textField_answer = new JTextField(10);
-    panel.add(textField_answer);
-
-//    add button listeners
-    for(Integer i = 1; i < 5; i++) {
-      button_numbers[i - 1].addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent actionEvent) {
-          textField_answer.setText("hello");
-        }
-      });
-    }
-
-
-//    add panel to frame and display
-    frame.add(panel);
-    frame.setVisible(true);
-  }
 
 }
