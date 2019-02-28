@@ -9,7 +9,11 @@ public class GuiApp {
   }
 
   private View view = new View();
-  private Model polishCalc = new Model(view);
+  private Model polishCalc = new Model();
+
+  public GuiApp() {
+    polishCalc.addObserver(view);
+  }
 
   class View {
 
@@ -20,6 +24,7 @@ public class GuiApp {
     private JTextField textField_answer = new JTextField(10);
 
     public View() {
+
       frame.setSize(300, 120);
 
       for(Integer i = 1; i < 5; i++) {

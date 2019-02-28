@@ -1,15 +1,17 @@
 package ic.doc;
 
 import ic.doc.GuiApp.View;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class Model {
   private Stack<Integer> stack = new Stack<>();
-  private View view;
   private Integer currentOutput;
+  private final List<View> views = new ArrayList<>();
 
-  public Model(View view) {
-    this.view = view;
+  public void addObserver(View view) {
+    views.add(view);
   }
 
   public void addNumberToStack(Integer i) {
@@ -19,7 +21,9 @@ public class Model {
   }
 
   private void updateUI() {
-    view.updateUI(currentOutput);
+    for(int i = 0; i < views.size(); i++) {
+      views.get(i).updateUI(currentOutput);
+    }
   }
 
   public void evaluate(String operation) {
