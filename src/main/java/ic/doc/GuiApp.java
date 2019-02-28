@@ -17,48 +17,12 @@ public class GuiApp {
   private Model polishCalc = new Model(view);
 
 
-  class Model {
-    private Stack<Integer> stack = new Stack<>();
-    private View view;
-    private Integer currentOutput;
-
-    public Model(View view) {
-      this.view = view;
-    }
-
-    public void addNumberToStack(Integer i) {
-      stack.push(i);
-      currentOutput = i;
-      updateUI();
-    }
-
-    private void updateUI() {
-      view.textField_answer.setText(currentOutput.toString());
-    }
-
-    public void evaluate(String operation) {
-
-      if (stack.size() < 2) { return; }
-
-      Integer firstOperand = stack.pop();
-      Integer secondOperand = stack.pop();
-      if(operation == "+") {
-        currentOutput = stack.push(firstOperand + secondOperand);
-      }else {
-        currentOutput = stack.push(secondOperand - firstOperand);
-      }
-      updateUI();
-    }
-  }
-
-
   class View {
 
     private JFrame frame = new JFrame("Reverse Polish Calculator");
     private JPanel panel = new JPanel();
     private JButton[] button_numbers = new JButton[4];
-    private JButton button_plus = new JButton("+");
-    private JButton button_minus = new JButton("-");
+    private JButton[] button_operands = new JButton[2];
     private JTextField textField_answer = new JTextField(10);
 
     public View() {
@@ -68,33 +32,41 @@ public class GuiApp {
         button_numbers[i - 1] = new JButton(i.toString());
         panel.add(button_numbers[i - 1]);
       }
-      panel.add(button_plus);
-      panel.add(button_minus);
+
+      button_operands[0] = new JButton("+");
+      button_operands[1] = new JButton("-");
+
+      panel.add(button_operands[0]);
+      panel.add(button_operands[1]);
       panel.add(textField_answer);
 
       frame.add(panel);
       frame.setVisible(true);
 
 
-//      CONTROLLER:
-      for(Integer i = 1; i < 5; i++) {
-        Integer finalI = i;
-        button_numbers[i - 1].addActionListener(e -> {
-            polishCalc.addNumberToStack(finalI);
+//     From here on the Controller is Implemented:
+
+      for(Integer i = 0; i < 4; i++) {
+        button_numbers[i].addActionListener(e -> {
+            polishCalc.addNumberToStack(Integer.valueOf(e.getActionCommand()));
         });
       }
 
-      button_plus.addActionListener(e -> {
-          polishCalc.evaluate("+");
-      });
+      for(Integer i = 0; i < 2; i++) {
+        button_operands[i].addActionListener(e -> {
+          polishCalc.evaluate(e.getActionCommand());
+        });
+      }
+    }
 
-      button_minus.addActionListener(e -> {
-          polishCalc.evaluate("-");
-      });
+    public void updateUI(Integer currentOutput) {
+      textField_answer.setText(currentOutput.toString());
     }
   }
 
+class Controller {
 
+}
 
 
 
