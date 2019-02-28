@@ -17,25 +17,25 @@ public class ModelTest {
   public void addingNumberToStackUpdatesOneObserverInObserverList() {
 
     context.checking(new Expectations() {{
-      exactly(1).of(view).updateUI(5);
+      exactly(1).of(view).updateUI(4);
     }});
 
     polishCalc.addObserver(view);
-    polishCalc.addNumberToStack(5);
+    polishCalc.addNumberToStack(4);
   }
 
   @Test
   public void addingNumberToStackUpdatesMultipleObserversInObserverList() {
 
     context.checking(new Expectations() {{
-      exactly(3).of(view).updateUI(5);
+      exactly(3).of(view).updateUI(4);
 
     }});
 
     polishCalc.addObserver(view);
     polishCalc.addObserver(view);
     polishCalc.addObserver(view);
-    polishCalc.addNumberToStack(5);
+    polishCalc.addNumberToStack(4);
   }
 
   @Test
@@ -51,18 +51,106 @@ public class ModelTest {
   }
 
   @Test
-  public void passingPlusSignToEvaluateUpdatesViewerWithSumOfTopTwoNumberOnStack() {
+  public void passingPlusSignToEvaluateFunctionUpdatesObserversWithCorrectNumber() {
 
     context.checking(new Expectations() {{
-      exactly(1).of(view).updateUI(5);
+      exactly(1).of(view).updateUI(4);
       exactly(1).of(view).updateUI(3);
-      exactly(1).of(view).updateUI(8);
+      exactly(1).of(view).updateUI(7);
     }});
 
     polishCalc.addObserver(view);
-    polishCalc.addNumberToStack(5);
+    polishCalc.addNumberToStack(4);
     polishCalc.addNumberToStack(3);
     polishCalc.evaluate("+");
+  }
+
+  @Test
+  public void plusSignUsedMultipleTimesWorksDownStack() {
+
+    context.checking(new Expectations() {{
+      exactly(1).of(view).updateUI(4);
+      exactly(1).of(view).updateUI(3);
+      exactly(1).of(view).updateUI(2);
+      exactly(1).of(view).updateUI(5);
+      exactly(1).of(view).updateUI(9);
+    }});
+
+    polishCalc.addObserver(view);
+    polishCalc.addNumberToStack(4);
+    polishCalc.addNumberToStack(3);
+    polishCalc.addNumberToStack(2);
+    polishCalc.evaluate("+");
+    polishCalc.evaluate("+");
+  }
+
+  @Test
+  public void passingMinusSignToEvaluateFunctionUpdatesObserversWithCorrectNumber() {
+
+    context.checking(new Expectations() {{
+      exactly(1).of(view).updateUI(4);
+      exactly(1).of(view).updateUI(3);
+      exactly(1).of(view).updateUI(1);
+    }});
+
+    polishCalc.addObserver(view);
+    polishCalc.addNumberToStack(4);
+    polishCalc.addNumberToStack(3);
+    polishCalc.evaluate("-");
+  }
+
+  @Test
+  public void minusSignUsedMultipleTimesWorksDownStack() {
+
+    context.checking(new Expectations() {{
+      exactly(1).of(view).updateUI(4);
+      exactly(1).of(view).updateUI(3);
+      exactly(1).of(view).updateUI(2);
+      exactly(1).of(view).updateUI(1);
+      exactly(1).of(view).updateUI(3);
+    }});
+
+    polishCalc.addObserver(view);
+    polishCalc.addNumberToStack(4);
+    polishCalc.addNumberToStack(3);
+    polishCalc.addNumberToStack(2);
+    polishCalc.evaluate("-");
+    polishCalc.evaluate("-");
+  }
+
+  @Test
+  public void plusAndMinusUsedInConjunction() {
+
+    context.checking(new Expectations() {{
+      exactly(1).of(view).updateUI(4);
+      exactly(1).of(view).updateUI(3);
+      exactly(1).of(view).updateUI(2);
+      exactly(1).of(view).updateUI(5);
+      exactly(1).of(view).updateUI(-1);
+    }});
+
+    polishCalc.addObserver(view);
+    polishCalc.addNumberToStack(4);
+    polishCalc.addNumberToStack(3);
+    polishCalc.addNumberToStack(2);
+    polishCalc.evaluate("+");
+    polishCalc.evaluate("-");
+  }
+
+  @Test
+  public void nothingHappensWhenEvaluatingWithLessThanTwoNumbersOnStack() {
+
+    context.checking(new Expectations() {{
+      exactly(1).of(view).updateUI(4);
+      exactly(1).of(view).updateUI(3);
+      exactly(1).of(view).updateUI(7);
+    }});
+
+    polishCalc.addObserver(view);
+    polishCalc.addNumberToStack(4);
+    polishCalc.addNumberToStack(3);
+    polishCalc.evaluate("+");
+    polishCalc.evaluate("-");
   }
 
 
