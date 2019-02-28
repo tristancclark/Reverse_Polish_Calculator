@@ -37,6 +37,9 @@ public class GuiApp {
     }
 
     public void evaluate(String operation) {
+
+      if (stack.size() < 2) { return; }
+
       Integer firstOperand = stack.pop();
       Integer secondOperand = stack.pop();
       if(operation == "+") {
@@ -76,22 +79,21 @@ public class GuiApp {
 //      CONTROLLER:
       for(Integer i = 1; i < 5; i++) {
         Integer finalI = i;
-        button_numbers[i - 1].addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent actionEvent) {
+        button_numbers[i - 1].addActionListener(e -> {
             polishCalc.addNumberToStack(finalI);
-          }
         });
       }
 
-      button_plus.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
+      button_plus.addActionListener(e -> {
           polishCalc.evaluate("+");
-        }
+      });
+
+      button_minus.addActionListener(e -> {
+          polishCalc.evaluate("-");
       });
     }
   }
+
 
 
 
