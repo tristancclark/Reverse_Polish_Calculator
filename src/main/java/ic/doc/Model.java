@@ -17,10 +17,10 @@ public class Model {
   public void addNumberToStack(Integer i) {
     stack.push(i);
     currentOutput = i;
-    updateUI();
+    update();
   }
 
-  private void updateUI() {
+  private void update() {
     for (int i = 0; i < views.size(); i++) {
       views.get(i).update(currentOutput);
     }
@@ -39,6 +39,6 @@ public class Model {
     } else {
       currentOutput = stack.push(secondOperand - firstOperand);
     }
-    updateUI();
+    update();
   }
 }
