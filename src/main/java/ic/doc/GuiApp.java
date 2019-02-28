@@ -27,7 +27,7 @@ public class GuiApp {
 
       frame.setSize(300, 120);
 
-      for(Integer i = 1; i < 5; i++) {
+      for (Integer i = 1; i < 5; i++) {
         button_numbers[i - 1] = new JButton(i.toString());
         panel.add(button_numbers[i - 1]);
       }
@@ -42,16 +42,15 @@ public class GuiApp {
       frame.add(panel);
       frame.setVisible(true);
 
-
 //     From here on the Controller is Implemented:
 
-      for(Integer i = 0; i < 4; i++) {
+      for (Integer i = 0; i < 4; i++) {
         button_numbers[i].addActionListener(e -> {
-            polishCalc.addNumberToStack(Integer.valueOf(e.getActionCommand()));
+          polishCalc.addNumberToStack(Integer.valueOf(e.getActionCommand()));
         });
       }
 
-      for(Integer i = 0; i < 2; i++) {
+      for (Integer i = 0; i < 2; i++) {
         button_operands[i].addActionListener(e -> {
           polishCalc.evaluate(e.getActionCommand());
         });
