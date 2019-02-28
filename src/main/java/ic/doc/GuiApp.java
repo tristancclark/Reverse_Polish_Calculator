@@ -15,7 +15,7 @@ public class GuiApp {
     polishCalc.addObserver(view);
   }
 
-  class View {
+  class View implements Updatable {
 
     private JFrame frame = new JFrame("Reverse Polish Calculator");
     private JPanel panel = new JPanel();
@@ -58,9 +58,11 @@ public class GuiApp {
       }
     }
 
+    @Override
     public void updateUI(Integer currentOutput) {
       textField_answer.setText(currentOutput.toString());
     }
+
   }
 
 }

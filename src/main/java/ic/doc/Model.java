@@ -8,9 +8,9 @@ import java.util.Stack;
 public class Model {
   private Stack<Integer> stack = new Stack<>();
   private Integer currentOutput;
-  private final List<View> views = new ArrayList<>();
+  private final List<Updatable> views = new ArrayList<>();
 
-  public void addObserver(View view) {
+  public void addObserver(Updatable view) {
     views.add(view);
   }
 
