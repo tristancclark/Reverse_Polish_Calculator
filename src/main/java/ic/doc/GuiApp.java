@@ -1,10 +1,5 @@
 package ic.doc;
 
-
-import java.awt.SystemTray;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Stack;
 import javax.swing.*;
 
 public class GuiApp {
@@ -15,7 +10,6 @@ public class GuiApp {
 
   private View view = new View();
   private Model polishCalc = new Model(view);
-
 
   class View {
 
@@ -63,12 +57,5 @@ public class GuiApp {
       textField_answer.setText(currentOutput.toString());
     }
   }
-
-class Controller {
-
-}
-
-
-
 
 }

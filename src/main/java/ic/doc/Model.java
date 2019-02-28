@@ -30,7 +30,7 @@ public class Model {
     Integer secondOperand = stack.pop();
     if(operation == "+") {
       currentOutput = stack.push(firstOperand + secondOperand);
-    }else {
+    } else {
       currentOutput = stack.push(secondOperand - firstOperand);
     }
     updateUI();
