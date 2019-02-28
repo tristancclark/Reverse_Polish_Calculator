@@ -2,5 +2,5 @@ package ic.doc;
 
 public interface Updatable {
 
-  void updateUI(Integer i);
+  void update(Integer i);
 }

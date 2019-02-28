@@ -22,7 +22,7 @@ public class Model {
 
   private void updateUI() {
     for (int i = 0; i < views.size(); i++) {
-      views.get(i).updateUI(currentOutput);
+      views.get(i).update(currentOutput);
     }
   }
 
