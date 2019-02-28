@@ -1,6 +1,7 @@
 package ic.doc;
 
 
+import java.awt.SystemTray;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Stack;
@@ -19,6 +20,7 @@ public class GuiApp {
   class Model {
     private Stack<Integer> stack = new Stack<>();
     private View view;
+    private Integer currentOutput;
 
     public Model(View view) {
       this.view = view;
@@ -26,17 +28,23 @@ public class GuiApp {
 
     public void addNumberToStack(Integer i) {
       stack.push(i);
-      view.textField_answer.setText(i.toString());
+      currentOutput = i;
+      updateUI();
     }
 
-    public void evaluate(String s) {
+    private void updateUI() {
+      view.textField_answer.setText(currentOutput.toString());
+    }
+
+    public void evaluate(String operation) {
       Integer firstOperand = stack.pop();
       Integer secondOperand = stack.pop();
-      if(s == "+") {
-        stack.push(firstOperand + secondOperand);
+      if(operation == "+") {
+        currentOutput = stack.push(firstOperand + secondOperand);
       }else {
-        stack.push(firstOperand - secondOperand);
+        currentOutput = stack.push(secondOperand - firstOperand);
       }
+      updateUI();
     }
   }
 
@@ -74,14 +82,14 @@ public class GuiApp {
             polishCalc.addNumberToStack(finalI);
           }
         });
-
-        button_plus.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent actionEvent) {
-            polishCalc.evaluate("+");
-          }
-        });
       }
+
+      button_plus.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+          polishCalc.evaluate("+");
+        }
+      });
     }
   }
 
